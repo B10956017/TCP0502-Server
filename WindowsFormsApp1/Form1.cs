@@ -69,12 +69,22 @@ namespace WindowsFormsApp1
                         case "0":                    //有新使用者上線：新增使用者到名單中
                             HT.Add(Str, Sck);        //連線加入雜湊表，Key:使用者，Value:連線物件(Socket)
                             listBox1.Items.Add(Str); //加入上線者名單
+                            Sendall(onlinelist());//傳送線上名單給所有用戶
                             break;
                         case "9":
                             HT.Remove(Str);             //移除使用者名稱為Name的連線物件
                             listBox1.Items.Remove(Str); //自上線者名單移除Name
+                            Sendall(onlinelist());//傳送線上名單給所有用戶
                             Th.Abort();                 //結束此客戶的監聽執行緒
                             break;
+                        case "1":
+                            Sendall(Msg);
+                            break;
+                        default://傳送私密訊息
+                            string[] C = Str.Split('1');//切開訊息與收件者
+                            SendTo(Cmd+C[0],C[1]);
+                            break;
+
                     }
                 }
                 catch (Exception)
